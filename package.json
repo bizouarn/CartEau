@@ -1,6 +1,7 @@
 {
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "gen-data" : "node data.js"
   },
   "dependencies": {
     "axios": "^0.25.0",

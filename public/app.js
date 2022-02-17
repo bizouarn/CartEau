@@ -1,30 +1,3 @@
-
-var app = new Vue({
-	el: '#app',
-    vuetify: new Vuetify(),
-	data: {
-		place: null,
-		fish: null,
-		drawer: null,
-		items: [
-			{ icon: 'lightbulb_outline', text: 'Notes' },
-			{ icon: 'touch_app', text: 'Reminders' },
-			{ divider: true },
-			{ heading: 'Labels' },
-			{ icon: 'add', text: 'Create new label' },
-			{ divider: true },
-			{ icon: 'archive', text: 'Archive' },
-			{ icon: 'delete', text: 'Trash' },
-			{ divider: true },
-			{ icon: 'settings', text: 'Settings' },
-			{ icon: 'chat_bubble', text: 'Trash' },
-			{ icon: 'help', text: 'Help' },
-			{ icon: 'phonelink', text: 'App downloads' },
-			{ icon: 'keyboard', text: 'Keyboard shortcuts' }
-		]
-	}
-})
-
 var pruneCluster = new PruneClusterForLeaflet();
 // On initialise la latitude, la longitude et le zoom (centre de la carte)
 const lat = 46.561964;
@@ -57,13 +30,16 @@ function markerClick(data){
 			return (fish?.places.filter(placeF => data.obj.code_station == placeF.code_station).length > 0)
 		}
 	);
-	console.log(fish);
-	if(fish != undefined){
-		app.drawer = true;
-		app.fish = fish;
-		app.place = data.obj;
+	console.log(data);
+	var ret = data.obj.localisation + "\n\n"; 
+	ret += "On y trouve : \n";
+	// foreach fish in fishs
+	for(var fi of fish){
+		// add to ret "- name of fish"
+		ret += " - " + fi.nom_commun + "\n"; 
 	}
-	// log
+	console.log(ret);
+	alert(ret);
 }
 
 // read data in url /public/places.json
