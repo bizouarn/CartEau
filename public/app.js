@@ -82,4 +82,8 @@ function locationCourante() {
 	  alert("la géolocalisation n'est pas disponible sur votre navigateur.");
 	}
 }
-  
+
+// centre la carte sur les données écrites au début du fichier
+function centrer(){
+	map.setView([lat, lon], zoom);
+};  
