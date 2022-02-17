@@ -6,8 +6,17 @@ body
     bottom: 0px;
     right: 0px;
     z-index: 0;
+    display: grid;
+    grid-gap: 10px;
+    grid-auto-rows: auto 1fr;
+    margin: 0px;
+    grid-gap: 0px;
 }
 #map{
     width: calc(100%);
     height: calc(100%);
+    z-index: 0;
+}
+.uk-navbar-item, .uk-navbar-nav > li > a, .uk-navbar-toggle {
+    min-height: 50px !important;
 }
