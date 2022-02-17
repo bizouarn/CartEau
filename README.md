@@ -1,4 +1,4 @@
-# FishCarte
+# CartEau
 Carte pour visualiser les données de l'api https://hubeau.eaufrance.fr/api/
 
 # Utilisation
