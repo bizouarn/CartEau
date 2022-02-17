@@ -1,4 +1,4 @@
-#map
+body
 {
     position: absolute;
     top: 0px;
@@ -6,4 +6,8 @@
     bottom: 0px;
     right: 0px;
     z-index: 0;
+}
+#map{
+    width: calc(100%);
+    height: calc(100%);
 }
