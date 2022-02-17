@@ -20,3 +20,6 @@ body
 .uk-navbar-item, .uk-navbar-nav > li > a, .uk-navbar-toggle {
     min-height: 50px !important;
 }
+.material-icons{
+    vertical-align: middle;
+}

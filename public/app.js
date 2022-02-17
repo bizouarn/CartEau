@@ -10,9 +10,13 @@ var places;
 var map = L.map('map', { maxBounds: [[101, -200], [-101, 180]] }).setView([lat, lon], zoom);
 
 // Insert in class="leaflet-control-zoom leaflet-bar leaflet-control" the button "centrer" after the button "zoom in"
-$(".leaflet-control-zoom").append("<a class='leaflet-control-zoom-in' onclick='centrer()' title='Centrer la carte sur la position actuelle'>C</a>");
+$(".leaflet-control-zoom").append(
+	"<a class='leaflet-control-zoom-in' onclick='locationCourante()' title='Centrer la carte sur la position actuelle'><span class='material-icons'>my_location</span></a>"
+);
 // Isert in class="leaflet-control-zoom leaflet-bar leaflet-control" the button "current location" after the button "zoom in"
-$(".leaflet-control-zoom").append("<a href='#' class='leaflet-control-zoom-in' onClick='locationCourante()' title='Centrer la carte sur votre position'>G</a>");
+$(".leaflet-control-zoom").append(
+	"<a class='leaflet-control-zoom-in' onClick='centrer()' title='Centrer la carte sur votre position'><span class='material-icons'>zoom_out_map</span></a>"
+);
 
 // Initialize the base layer
 var osm_mapnik = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
