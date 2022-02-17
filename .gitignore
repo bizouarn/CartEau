@@ -2,3 +2,7 @@
 .vscode/
 
 node_modules/
+
+public/fishs.json
+
+public/places.json
