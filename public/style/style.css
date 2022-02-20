@@ -14,7 +14,7 @@ body
 }
 #map{
     width: calc(100%);
-    height: calc(100%);
+    height: calc(100vh - 50px);
     z-index: 0;
 }
 .uk-navbar-item, .uk-navbar-nav > li > a, .uk-navbar-toggle {
