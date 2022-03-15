@@ -1,8 +1,8 @@
+import $ from 'jquery';
 import * as L from 'leaflet'
 import '/node_modules/leaflet/dist/leaflet.css'
 import '/node_modules/uikit/dist/js/uikit.js'
 import '/node_modules/uikit/dist/css/uikit.css'
-import '/node_modules/jquery/dist/jquery.min.js'
 import { PruneCluster, PruneClusterForLeaflet } from '/PruneCluster.js'
 import '/css/PruneCluster.css'
 import '/css/style.css'
