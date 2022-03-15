@@ -91,7 +91,7 @@ function markerClick(data) {
 }
 
 // read data in url /places.json
-$.getJSON('/places.json', function (data) {
+$.getJSON('./places.json', function (data) {
   places = data
   // for for each fishs
   for (var place of places) {
@@ -106,7 +106,7 @@ $.getJSON('/places.json', function (data) {
   setTimeout(() => { pruneCluster.ProcessView() }, 1)
 })
 
-$.getJSON('/fishs.json', function (data) {
+$.getJSON('./fishs.json', function (data) {
   fishs = data
 })
 
