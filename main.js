@@ -3,7 +3,7 @@ import "/node_modules/leaflet/dist/leaflet.css"
 import "/node_modules/uikit/dist/js/uikit.js"
 import "/node_modules/uikit/dist/css/uikit.css"
 import "/node_modules/jquery/dist/jquery.min.js"
-import { PruneCluster, PruneClusterForLeaflet } from 'prunecluster'
+import { PruneCluster, PruneClusterForLeaflet } from '/PruneCluster.js'
 import "/css/PruneCluster.css"
 import "/css/style.css"
 
@@ -19,12 +19,42 @@ var places
 var map = L.map('map', { maxBounds: [[101, -200], [-101, 180]] }).setView([lat, lon], zoom)
 
 // Insert in class="leaflet-control-zoom leaflet-bar leaflet-control" the button "centrer" after the button "zoom in"
+var linkCenter = document.createElement('a')
+linkCenter.classList.add('leaflet-control-zoom-in')
+linkCenter.onclick = function () {
+  map.setView([lat, lon], zoom)
+}
+linkCenter.title = 'Centrer la carte'
+linkCenter.innerHTML = '<span class=\'material-icons\'>zoom_out_map</span>'
+var linkLocation = document.createElement('a')
+linkLocation.classList.add('leaflet-control-zoom-in')
+linkLocation.innerHTML = '<span class=\'material-icons\'>my_location</span>'
+linkLocation.onclick = function () {
+  if ('geolocation' in navigator) {
+    navigator.geolocation.getCurrentPosition(function (position) {
+      try {
+        macarte.setView([position.coords.latitude, position.coords.longitude], 12)
+      } catch (e) {
+        // en cas d'erreur de géolocalisation du navigateur sa recherche à partir de l'IP
+        var onSuccess = function (position) {
+          map.setView([position.location.latitude, position.location.longitude], 10)
+        }
+        var onError = function (error) {
+          alert('Nous n\'arrivons pas à vous géolocaliser.')
+        }
+        geoip2.city(onSuccess, onError)
+      }
+    })
+  } else {
+    alert('la géolocalisation n\'est pas disponible sur votre navigateur.')
+  }
+}
 $('.leaflet-control-zoom').append(
-  '<a class=\'leaflet-control-zoom-in\' onclick=\'locationCourante()\' title=\'Centrer la carte sur la position actuelle\'><span class=\'material-icons\'>my_location</span></a>'
+  linkCenter
 )
 // Isert in class="leaflet-control-zoom leaflet-bar leaflet-control" the button "current location" after the button "zoom in"
 $('.leaflet-control-zoom').append(
-  '<a class=\'leaflet-control-zoom-in\' onClick=\'centrer()\' title=\'Centrer la carte sur votre position\'><span class=\'material-icons\'>zoom_out_map</span></a>'
+  linkLocation
 )
 
 // Initialize the base layer
@@ -104,4 +134,4 @@ function locationCourante() {
 // centre la carte sur les données écrites au début du fichier
 function centrer() {
   map.setView([lat, lon], zoom)
-}  
+}

@@ -6,7 +6,6 @@ specifiers:
   fs: ^0.0.1-security
   jquery: ^3.6.0
   leaflet: ^1.7.1
-  prunecluster: ^2.1.0
   uikit: ^3.12.2
   vite: ^2.8.0
 
@@ -16,7 +15,6 @@ dependencies:
   fs: 0.0.1-security
   jquery: 3.6.0
   leaflet: 1.7.1
-  prunecluster: 2.1.0
   uikit: 3.12.2
 
 devDependencies:
@@ -318,11 +316,6 @@ packages:
       picocolors: 1.0.0
       source-map-js: 1.0.2
     dev: true
-
-  /prunecluster/2.1.0:
-    resolution: {integrity: sha512-kTp14zyPyeCgzHUiEfTcEUNzQ/96Rwij/wAQhvNaob7Gpub0jw4I8x0XIdjL0UL3zeNZeEcywJwbS4rEAhKfSg==}
-    deprecated: This package has been moved to @sintef/prune-cluster
-    dev: false
 
   /resolve/1.22.0:
     resolution: {integrity: sha512-Hhtrw0nLeSrFQ7phPp4OOcVjLPIeMnRlr5mcnVuMe7M/7eBn98A3hmFRLoFo3DLZkivSYwhRUJTyPyWAk56WLw==}
