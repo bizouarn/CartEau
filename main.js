@@ -102,8 +102,11 @@ $.getJSON('./places.json', function (data) {
       pruneCluster.RegisterMarker(marker)
     }, 1, place)
   }
-  map.addLayer(pruneCluster)
-  setTimeout(() => { pruneCluster.ProcessView() }, 1)
+  setTimeout(() => { 
+    map.addLayer(pruneCluster)
+    pruneCluster.ProcessView()
+    map.invalidateSize(); // see https://github.com/Leaflet/Leaflet/issues/690
+  }, 100)
 })
 
 $.getJSON('./fishs.json', function (data) {
