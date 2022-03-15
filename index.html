@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <title>CartEau</title>
-  <meta charset="utf-8">
+  <link rel="icon" type="image/x-icon" href="/images/favicon.png">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
   <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900|Material+Icons" rel="stylesheet">
@@ -10,29 +10,40 @@
 </head>
 
 <body>
-  <nav class="uk-navbar-container" uk-navbar>
-    <div class="uk-navbar-left">
-      <ul class="uk-navbar-nav">
-        <li class="uk-active"><a href="/">CartEau</a></li>
-        <li class="uk-active"><a href="#"><div uk-spinner></div></a></li>
-      </ul>
-    </div>
-    <div class="uk-navbar-right">
-      <ul class="uk-navbar-nav">
-        <button class="uk-button uk-button-default" type="button" uk-toggle="target: #infos">Open</button>
-        <div id="infos" uk-offcanvas="overlay: true; flip: true; mode: push;">
-          <div class="uk-offcanvas-bar">
-                <button class="uk-offcanvas-close" type="button" uk-close></button>
-                <h3>Title</h3>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+  <!-- Loading screen -->
+  <div class="uk-position-center uk-overlay uk-overlay-default" id="loading-screen" style="z-index: 1000;">
+    <div uk-spinner></div>
+  </div>
+  <!-- End loading screen -->
+  <div id="app" style="display: none;">
+    <nav class="uk-navbar-container" uk-navbar>
+      <div class="uk-navbar-left">
+        <ul class="uk-navbar-nav">
+          <li class="uk-active">
+            <a href="/">
+              <img src="/images/favicon.png" height="40px"/>
+              CartEau
+            </a>
+          </li>
+        </ul>
+      </div>
+      <div class="uk-navbar-right">
+        <ul class="uk-navbar-nav">
+          <button class="uk-button uk-button-default" type="button" uk-toggle="target: #infos" style="display: none;">Open</button>
+          <div id="infos" uk-offcanvas="overlay: true; flip: true; mode: push;">
+            <div class="uk-offcanvas-bar">
+                  <button class="uk-offcanvas-close" type="button" uk-close></button>
+                  <h3>Title</h3>
+                  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+              </div>
             </div>
-          </div>
-      </ul>
+        </ul>
+      </div>
+    </nav>
+    <div>
+      <div id="map"></div>
+      <script src="/main.js" type="module"></script>
     </div>
-  </nav>
-  <div>
-    <div id="map"></div>
-    <script src="/main.js" type="module"></script>
   </div>
 </body>
 
