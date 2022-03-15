@@ -1,13 +1,13 @@
-import * as L from 'leaflet';
+import * as L from "leaflet";
 import "/node_modules/leaflet/dist/leaflet.css"
 import "/node_modules/uikit/dist/js/uikit.js"
 import "/node_modules/uikit/dist/css/uikit.css"
 import "/node_modules/jquery/dist/jquery.min.js"
-import { PruneCluster, PruneClusterForLeaflet } from 'prunecluster/dist/PruneCluster.js'
+import { PruneCluster, PruneClusterForLeaflet } from 'prunecluster'
 import "/css/PruneCluster.css"
 import "/css/style.css"
 
-var pruneCluster = PruneClusterForLeaflet
+var pruneCluster = new PruneClusterForLeaflet()
 // On initialise la latitude, la longitude et le zoom (centre de la carte)
 const lat = 46.561964
 const lon = 0
