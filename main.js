@@ -60,7 +60,7 @@ $('.leaflet-control-zoom').append(
 // Initialize the base layer
 var osm_mapnik = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
   maxZoom: 19,
-  attribution: '&copy;<a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+  attribution: '&copy;<a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> | données <a href="https://www.eaufrance.fr/">Eaufrance</a>'
 }).addTo(map)
 
 pruneCluster.PrepareLeafletMarker = function (leafletMarker, data) {
@@ -81,14 +81,47 @@ function markerClick(data) {
       return (fish?.places.filter(placeF => data.obj.code_station == placeF.code_station).length > 0)
     }
   )
-  var ret = '<h4>On y trouve :</h4>'
-  // foreach fish in fishs
+  var ret = '<h4>Espèces pricipales</h4>'
   for (var fi of fish) {
     // add to ret "- name of fish"
     ret += ' - ' + fi.nom_commun + '<br>'
   }
   $('#info-title').text(data.obj.localisation)
   $('#info-content').html(ret)
+  $('#info-content').append('<div id="loading-content" class="uk-text-center"><div uk-spinner></div></div>')
+  // call api for get more
+  $.getJSON('https://hubeau.eaufrance.fr/api/v0/etat_piscicole/poissons?code_station=' + data.obj.code_station + '&format=json', function (data) {
+      var fishs_in_station = []
+      if(data.data.length > 0) {
+        var ret = '';
+        ret += '<h4>Dans cette station :</h4>'
+        ret += '<table class="uk-table uk-table-small uk-table-striped uk-table-hover uk-table-small">'
+        ret += '<thead><th>Espèce</th><th>Quantité</th><th>Poids</th><th>Date</th></tr></thead>'
+        // sort by date
+        data.data.sort(function (a, b) {
+          return new Date(b.date_operation) - new Date(a.date_operation)
+        })
+        for (var poisson of data.data) {
+          // poisson = {"x":-1.779933413,"y":48.180840963,"localisation":"FLUME à PACE","code_station":"04350157","code_cours_eau":"J7214000","nom_cours_eau":"la Flume","uri_cours_eau":"http://id.eaufrance.fr/CEA/J7214000","numero_operation":35480000043,"date_operation":"2013-10-09","code_espece_poisson":"TAC","nom_poisson":"Truite arc-en-ciel","effectif":1,"poids":0,"densite":0.176366843,"surface_peche":567,"classes":{"430":1},"geometry":{"type":"Point","crs":{"type":"name","properties":{"name":"urn:ogc:def:crs:OGC:1.3:CRS84"}},"coordinates":[-1.7799334129101858,48.18084096299211]}}
+          var obj = {
+            code_espece_poisson: poisson.code_espece_poisson,
+            code_station: poisson.code_station,
+            nom_poisson: poisson.nom_poisson,
+            effectif: poisson.effectif,
+            poids: poisson.poids,
+            densite: poisson.densite,
+            surface_peche: poisson.surface_peche,
+            date_operation: poisson.date_operation
+          }
+          console.log(obj)
+          fishs_in_station[poisson.code_espece_poisson] = obj
+          ret += '<tr><td>' + poisson.nom_poisson + '</td><td>' + poisson.effectif + '</td><td>' + poisson.poids + '</td><td>' + poisson.date_operation + '</td></tr>'
+        }
+        ret += '</table>'
+        $('#info-content').append(ret)
+      }
+      $('#info-content').find('#loading-content').remove()
+    })
   UIkit.offcanvas('#info').toggle();
 }
 
