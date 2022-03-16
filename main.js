@@ -82,15 +82,16 @@ function markerClick(data) {
     }
   )
   console.log(data)
-  var ret = data.obj.localisation + '\n\n'
-  ret += 'On y trouve : \n'
+  var ret = '<h4>On y trouve :</h4>'
   // foreach fish in fishs
   for (var fi of fish) {
     // add to ret "- name of fish"
-    ret += ' - ' + fi.nom_commun + '\n'
+    ret += ' - ' + fi.nom_commun + '<br>'
   }
   console.log(ret)
-  alert(ret)
+  $('#info-title').text(data.obj.localisation)
+  $('#info-content').append(ret)
+  UIkit.offcanvas('#info').toggle();
 }
 
 // read data in url /places.json

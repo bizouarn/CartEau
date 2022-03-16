@@ -29,12 +29,12 @@
       </div>
       <div class="uk-navbar-right">
         <ul class="uk-navbar-nav">
-          <button class="uk-button uk-button-default" type="button" uk-toggle="target: #infos" style="display: none;">Open</button>
-          <div id="infos" uk-offcanvas="overlay: true; flip: true; mode: push;">
+          <button class="uk-button uk-button-default" type="button" uk-toggle="target: #info" style="display: none;">Open</button>
+          <div id="info" uk-offcanvas="overlay: true; flip: true; mode: slide;">
             <div class="uk-offcanvas-bar">
                   <button class="uk-offcanvas-close" type="button" uk-close></button>
-                  <h3>Title</h3>
-                  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                  <h3 id="info-title"></h3>
+                  <div id="info-content"></div>
               </div>
             </div>
         </ul>
