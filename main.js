@@ -1,7 +1,7 @@
 import $ from 'jquery';
 import * as L from 'leaflet'
 import '/node_modules/leaflet/dist/leaflet.css'
-import '/node_modules/uikit/dist/js/uikit.js'
+import * as UIkit from 'uikit'
 import '/node_modules/uikit/dist/css/uikit.css'
 import { PruneCluster, PruneClusterForLeaflet } from '/PruneCluster.js'
 import '/css/PruneCluster.css'
@@ -65,7 +65,7 @@ var osm_mapnik = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png
 
 pruneCluster.PrepareLeafletMarker = function (leafletMarker, data) {
   var icon = L.icon({
-    iconUrl: "/images/pin.png",
+    iconUrl: "./images/pin.png",
     iconAnchor: [24, 48],
     iconSize: [48, 48]
   });
@@ -81,16 +81,14 @@ function markerClick(data) {
       return (fish?.places.filter(placeF => data.obj.code_station == placeF.code_station).length > 0)
     }
   )
-  console.log(data)
   var ret = '<h4>On y trouve :</h4>'
   // foreach fish in fishs
   for (var fi of fish) {
     // add to ret "- name of fish"
     ret += ' - ' + fi.nom_commun + '<br>'
   }
-  console.log(ret)
   $('#info-title').text(data.obj.localisation)
-  $('#info-content').append(ret)
+  $('#info-content').html(ret)
   UIkit.offcanvas('#info').toggle();
 }
 
