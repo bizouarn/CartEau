@@ -10,13 +10,20 @@ var places = [];
 
 async function Main(){
     // Send a GET request to get all fish at /v0/etat_piscicole/code_espece_poisson
-    await axios.get('https://hubeau.eaufrance.fr/api/v0/etat_piscicole/code_espece_poisson').then(async function(response){
+    await axios.get('https://hubeau.eaufrance.fr/api/v0/etat_piscicole/code_espece_poisson?size=2000').then(async function(response){
+        // if response is 206, we have to get more data
+        if(response.status == 206){
+            console.log('Warning : We have to get more data')
+        }
         fishs = response.data.data;
         // For each 10 first fish in fishs
         for(var fish of fishs){
             // Send a GET request to get all fishing place at /v0/etat_piscicole/lieux_peche where code_espece_poisson = fish.code
             try{
                 fish.places = await axios.get('https://hubeau.eaufrance.fr/api/v0/etat_piscicole/lieux_peche?code_espece_poisson='+fish.code).then(
+                    if(response.status == 206){
+                      console.log('Warning : We have to get more data')
+                    }
                     async function(response){ return response.data.data}
                 );
                 // For each place in fish.places
