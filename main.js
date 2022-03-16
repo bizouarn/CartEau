@@ -49,10 +49,10 @@ linkLocation.onclick = function () {
     alert('la géolocalisation n\'est pas disponible sur votre navigateur.')
   }
 }
+// Add tooltip btn
 $('.leaflet-control-zoom').append(
   linkCenter
 )
-// Isert in class="leaflet-control-zoom leaflet-bar leaflet-control" the button "current location" after the button "zoom in"
 $('.leaflet-control-zoom').append(
   linkLocation
 )
@@ -64,9 +64,12 @@ var osm_mapnik = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png
 }).addTo(map)
 
 pruneCluster.PrepareLeafletMarker = function (leafletMarker, data) {
-  var background
-  var zoomlevel = map.getZoom()
-  var style
+  var icon = L.icon({
+    iconUrl: "/images/pin.png",
+    iconAnchor: [24, 48],
+    iconSize: [48, 48]
+  });
+  leafletMarker.setIcon(icon);
   // action lors du clic sur un marker
   leafletMarker.on('click', function () { markerClick(data) })
 }
@@ -106,7 +109,7 @@ $.getJSON('./places.json', function (data) {
     map.addLayer(pruneCluster)
     pruneCluster.ProcessView()
     map.invalidateSize(); // see https://github.com/Leaflet/Leaflet/issues/690
-  }, 100)
+  }, 1000)
 })
 
 $.getJSON('./fishs.json', function (data) {
