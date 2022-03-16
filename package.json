@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build --base /CartEau/",
-    "preview": "vite preview",
+    "preview": "vite build && vite preview",
     "lint": "npx -y eslint main.js --fix",
     "gen-data": "node data.js",
     "gen-data:lint": "npx -y eslint data.js --fix"
