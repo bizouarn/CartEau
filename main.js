@@ -1,4 +1,4 @@
-import $ from 'jquery';
+import $ from 'jquery'
 import * as L from 'leaflet'
 import '/node_modules/leaflet/dist/leaflet.css'
 import * as UIkit from 'uikit'
@@ -65,11 +65,11 @@ var osm_mapnik = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png
 
 pruneCluster.PrepareLeafletMarker = function (leafletMarker, data) {
   var icon = L.icon({
-    iconUrl: "./images/pin.png",
+    iconUrl: './images/pin.png',
     iconAnchor: [24, 48],
     iconSize: [48, 48]
-  });
-  leafletMarker.setIcon(icon);
+  })
+  leafletMarker.setIcon(icon)
   // action lors du clic sur un marker
   leafletMarker.on('click', function () { markerClick(data) })
 }
@@ -91,42 +91,42 @@ function markerClick(data) {
   $('#info-content').append('<div id="loading-content" class="uk-text-center"><div uk-spinner></div></div>')
   // call api for get more
   $.getJSON('https://hubeau.eaufrance.fr/api/v0/etat_piscicole/poissons?code_station=' + data.obj.code_station + '&format=json', function (data) {
-      var fishs_in_station = []
-      if(data.data.length > 0) {
-        var ret = '';
-        ret += '<h4>Dans cette station :</h4>'
-        ret += '<table class="uk-table uk-table-small uk-table-striped uk-table-hover uk-table-small">'
-        ret += '<thead><th>Espèce</th><th>Quantité</th><th>Poids</th><th>Date</th></tr></thead>'
-        // sort by date
-        data.data.sort(function (a, b) {
-          return new Date(b.date_operation) - new Date(a.date_operation)
-        })
-        for (var poisson of data.data) {
-          // poisson = {"x":-1.779933413,"y":48.180840963,"localisation":"FLUME à PACE","code_station":"04350157","code_cours_eau":"J7214000","nom_cours_eau":"la Flume","uri_cours_eau":"http://id.eaufrance.fr/CEA/J7214000","numero_operation":35480000043,"date_operation":"2013-10-09","code_espece_poisson":"TAC","nom_poisson":"Truite arc-en-ciel","effectif":1,"poids":0,"densite":0.176366843,"surface_peche":567,"classes":{"430":1},"geometry":{"type":"Point","crs":{"type":"name","properties":{"name":"urn:ogc:def:crs:OGC:1.3:CRS84"}},"coordinates":[-1.7799334129101858,48.18084096299211]}}
-          var obj = {
-            code_espece_poisson: poisson.code_espece_poisson,
-            code_station: poisson.code_station,
-            nom_poisson: poisson.nom_poisson,
-            effectif: poisson.effectif,
-            poids: poisson.poids,
-            densite: poisson.densite,
-            surface_peche: poisson.surface_peche,
-            date_operation: poisson.date_operation
-          }
-          console.log(obj)
-          fishs_in_station[poisson.code_espece_poisson] = obj
-          ret += '<tr><td>' + poisson.nom_poisson + '</td><td>' + poisson.effectif + '</td><td>' + poisson.poids + '</td><td>' + poisson.date_operation + '</td></tr>'
+    var fishs_in_station = []
+    if(data.data.length > 0) {
+      var ret = ''
+      ret += '<h4>Dans cette station :</h4>'
+      ret += '<table class="uk-table uk-table-small uk-table-striped uk-table-hover uk-table-small">'
+      ret += '<thead><th>Espèce</th><th>Quantité</th><th>Poids</th><th>Date</th></tr></thead>'
+      // sort by date
+      data.data.sort(function (a, b) {
+        return new Date(b.date_operation) - new Date(a.date_operation)
+      })
+      for (var poisson of data.data) {
+        // poisson = {"x":-1.779933413,"y":48.180840963,"localisation":"FLUME à PACE","code_station":"04350157","code_cours_eau":"J7214000","nom_cours_eau":"la Flume","uri_cours_eau":"http://id.eaufrance.fr/CEA/J7214000","numero_operation":35480000043,"date_operation":"2013-10-09","code_espece_poisson":"TAC","nom_poisson":"Truite arc-en-ciel","effectif":1,"poids":0,"densite":0.176366843,"surface_peche":567,"classes":{"430":1},"geometry":{"type":"Point","crs":{"type":"name","properties":{"name":"urn:ogc:def:crs:OGC:1.3:CRS84"}},"coordinates":[-1.7799334129101858,48.18084096299211]}}
+        var obj = {
+          code_espece_poisson: poisson.code_espece_poisson,
+          code_station: poisson.code_station,
+          nom_poisson: poisson.nom_poisson,
+          effectif: poisson.effectif,
+          poids: poisson.poids,
+          densite: poisson.densite,
+          surface_peche: poisson.surface_peche,
+          date_operation: poisson.date_operation
         }
-        ret += '</table>'
-        $('#info-content').append(ret)
+        console.log(obj)
+        fishs_in_station[poisson.code_espece_poisson] = obj
+        ret += '<tr><td>' + poisson.nom_poisson + '</td><td>' + poisson.effectif + '</td><td>' + poisson.poids + '</td><td>' + poisson.date_operation + '</td></tr>'
       }
-      $('#info-content').find('#loading-content').remove()
-    })
-  UIkit.offcanvas('#info').toggle();
+      ret += '</table>'
+      $('#info-content').append(ret)
+    }
+    $('#info-content').find('#loading-content').remove()
+  })
+  UIkit.offcanvas('#info').toggle()
 }
 
-// read data in url /places.json
-$.getJSON('./places.json', function (data) {
+// read data in url /fish_places.json
+$.getJSON('./fish_places.json', function (data) {
   places = data
   // for for each fishs
   for (var place of places) {
@@ -140,7 +140,7 @@ $.getJSON('./places.json', function (data) {
   setTimeout(() => { 
     map.addLayer(pruneCluster)
     pruneCluster.ProcessView()
-    map.invalidateSize(); // see https://github.com/Leaflet/Leaflet/issues/690
+    map.invalidateSize() // see https://github.com/Leaflet/Leaflet/issues/690
   }, 1000)
 })
 
@@ -177,5 +177,5 @@ function centrer() {
 // when the page is loaded
 $(document).ready(function () {
   $('#loading-screen').hide()
-  $("#app").show()
+  $('#app').show()
 })
