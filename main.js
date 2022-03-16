@@ -58,9 +58,9 @@ $('.leaflet-control-zoom').append(
 )
 
 // Initialize the base layer
-var osm_mapnik = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+var osm_mapnik = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
   maxZoom: 19,
-  attribution: '&copy; OSM Mapnik <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+  attribution: '&copy;<a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
 }).addTo(map)
 
 pruneCluster.PrepareLeafletMarker = function (leafletMarker, data) {
