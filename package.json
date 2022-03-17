@@ -7,8 +7,7 @@
     "build": "vite build --base /CartEau/",
     "preview": "vite build && vite preview",
     "lint": "npx -y eslint main.js --fix",
-    "gen-data": "node data.js",
-    "gen-data:lint": "npx -y eslint data.js --fix"
+    "date": "node data.js"
   },
   "engines": {
     "node": "16"
