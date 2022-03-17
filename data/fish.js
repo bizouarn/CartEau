@@ -1,4 +1,3 @@
-const place = require('../model/place.js')
 const axios = require('axios')
 
 class dataFish{
@@ -23,7 +22,7 @@ class dataFish{
     async getPlaces(page){
         var fishs = await this.getFishs()
         var fishstr = [];
-        var nb = 100;
+        var nb = 10;
         for(var i = 0; i < fishs.length; i++){
             if(fishstr[((i-(i%nb))/nb)] == undefined){
                 fishstr[((i-(i%nb))/nb)] = '';
@@ -39,30 +38,35 @@ class dataFish{
                 async function(response){ 
                     try{
                         var ret = []
-
-                        var count = response.data.count;
-                        var nbPage = Math.ceil(count/2000);
-                        console.log('Warning : We have to get more data. nbPage:'+nbPage);
-                        for(var i = 1; i <= nbPage ; i++){
-                            console.log("page",i)
-                            var tmp = await axios.get(url+'&page='+page).then(
-                                async function(response){ 
-                                    return response.data.data;
+                        if(response.status == 206){
+                            var count = response.data.count;
+                            var nbPage = Math.ceil(count/2000);
+                            console.log('Warning : We have to get more data. nbPage:'+nbPage);
+                            for(var i = 1; i <= nbPage ; i++){
+                                console.log("page",i)
+                                var tmp = await axios.get(url+'&page='+page).then(
+                                    async function(response){ 
+                                        return response.data.data;
+                                    }
+                                )
+                                for(var place of tmp){
+                                    ret.push(place)
                                 }
-                            )
-                            for(var place of tmp){
-                                ret.push(place)
+                                console.log('nb places',ret.length,tmp.length)
                             }
-                            console.log('nb places',ret.length,tmp.length)
+                            return ret;
+                        } else {
+                            return response.data.data;
                         }
-                        return ret;
                     }catch(err){
                         console.log(err)
                     }
                 }
             )
             for(var place of tmp){
-                places.push(place)
+                if(places.filter(p => p.code_station == place.code_station).length == 0){
+                    places.push(place)
+                }
             }
         }
         return places;

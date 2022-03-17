@@ -75,26 +75,14 @@ pruneCluster.PrepareLeafletMarker = function (leafletMarker, data) {
 }
 
 function markerClick(data) {
-  // find fish in fish with attribute code_station = data.obj.code_station
-  var fish = fishs.filter(
-    fish => {
-      return (fish?.places.filter(placeF => data.obj.code_station == placeF.code_station).length > 0)
-    }
-  )
-  var ret = '<h4>Espèces pricipales</h4>'
-  for (var fi of fish) {
-    // add to ret "- name of fish"
-    ret += ' - ' + fi.nom_commun + '<br>'
-  }
+  var ret = ''
   $('#info-title').text(data.obj.localisation)
-  $('#info-content').html(ret)
-  $('#info-content').append('<div id="loading-content" class="uk-text-center"><div uk-spinner></div></div>')
+  $('#info-content').html('<div id="loading-content" class="uk-text-center"><div uk-spinner></div></div>')
   // call api for get more
   $.getJSON('https://hubeau.eaufrance.fr/api/v0/etat_piscicole/poissons?code_station=' + data.obj.code_station + '&format=json', function (data) {
     var fishs_in_station = []
     if(data.data.length > 0) {
       var ret = ''
-      ret += '<h4>Dans cette station :</h4>'
       ret += '<table class="uk-table uk-table-small uk-table-striped uk-table-hover uk-table-small">'
       ret += '<thead><th>Espèce</th><th>Quantité</th><th>Poids</th><th>Date</th></tr></thead>'
       // sort by date
