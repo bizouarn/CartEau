@@ -1,4 +1,4 @@
-# 📌💧 CartEau 
+# 📌💧 CartEau [![Github pages](https://github.com/bizouarn/CartEau/actions/workflows/gh-pages.yml/badge.svg?branch=main)](https://github.com/bizouarn/CartEau/actions/workflows/gh-pages.yml)
 Carte pour visualiser les données de l'api https://hubeau.eaufrance.fr/api/ 
 
 ## 💡 Utilisation
