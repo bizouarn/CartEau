@@ -113,8 +113,8 @@ function markerClick(data) {
   UIkit.offcanvas('#info').toggle()
 }
 
-// read json file /config.json
-$.getJSON('/config.json', function (config) {
+// read json file config.json
+$.getJSON('config.json', function (config) {
   // for each value in data
   for (var value of config) {
     // trace value
