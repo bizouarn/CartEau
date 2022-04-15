@@ -1,0 +1,8 @@
+[
+    {
+        "name":"fish",
+        "gen":"/data/fish.js",
+        "json":"fish_places.json",
+        "image":"images/fish.svg"
+    }
+]
