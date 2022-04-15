@@ -1,4 +1,5 @@
 
+// TODO : Use config.json for standardize the function
 // import axios
 const axios = require('axios')
 // import fs

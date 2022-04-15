@@ -101,7 +101,6 @@ function markerClick(data) {
           surface_peche: poisson.surface_peche,
           date_operation: poisson.date_operation
         }
-        console.log(obj)
         fishs_in_station[poisson.code_espece_poisson] = obj
         ret += '<tr><td>' + poisson.nom_poisson + '</td><td>' + poisson.effectif + '</td><td>' + poisson.poids + '</td><td>' + poisson.date_operation + '</td></tr>'
       }
@@ -117,8 +116,6 @@ function markerClick(data) {
 $.getJSON('config.json', function (config) {
   // for each value in data
   for (var value of config) {
-    // trace value
-    console.log(value)
     // read data in url /fish_places.json
     $.getJSON(value.json, function (data) {
       places = data
@@ -136,7 +133,7 @@ $.getJSON('config.json', function (config) {
         map.addLayer(pruneCluster)
         pruneCluster.ProcessView()
         map.invalidateSize() // see https://github.com/Leaflet/Leaflet/issues/690
-      }, 1000)
+      }, 1)
     })
   }
 })
