@@ -13,7 +13,7 @@ const lat = 46.561964
 const lon = 0
 const zoom = 6
 // init data
-var fishs
+// var fishs
 var places
 // Initialize the map
 var map = L.map('map', { maxBounds: [[101, -200], [-101, 180]] }).setView([lat, lon], zoom)
@@ -65,7 +65,7 @@ var osm_mapnik = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png
 
 pruneCluster.PrepareLeafletMarker = function (leafletMarker, data) {
   var icon = L.icon({
-    iconUrl: './images/pin.png',
+    iconUrl: data.icon,
     iconAnchor: [24, 48],
     iconSize: [48, 48]
   })
@@ -75,26 +75,15 @@ pruneCluster.PrepareLeafletMarker = function (leafletMarker, data) {
 }
 
 function markerClick(data) {
-  // find fish in fish with attribute code_station = data.obj.code_station
-  var fish = fishs.filter(
-    fish => {
-      return (fish?.places.filter(placeF => data.obj.code_station == placeF.code_station).length > 0)
-    }
-  )
-  var ret = '<h4>Espèces pricipales</h4>'
-  for (var fi of fish) {
-    // add to ret "- name of fish"
-    ret += ' - ' + fi.nom_commun + '<br>'
-  }
+  // TODO : Use config.json for standardize the function
+  var ret = ''
   $('#info-title').text(data.obj.localisation)
-  $('#info-content').html(ret)
-  $('#info-content').append('<div id="loading-content" class="uk-text-center"><div uk-spinner></div></div>')
+  $('#info-content').html('<div id="loading-content" class="uk-text-center"><div uk-spinner></div></div>')
   // call api for get more
   $.getJSON('https://hubeau.eaufrance.fr/api/v0/etat_piscicole/poissons?code_station=' + data.obj.code_station + '&format=json', function (data) {
     var fishs_in_station = []
     if(data.data.length > 0) {
       var ret = ''
-      ret += '<h4>Dans cette station :</h4>'
       ret += '<table class="uk-table uk-table-small uk-table-striped uk-table-hover uk-table-small">'
       ret += '<thead><th>Espèce</th><th>Quantité</th><th>Poids</th><th>Date</th></tr></thead>'
       // sort by date
@@ -102,7 +91,6 @@ function markerClick(data) {
         return new Date(b.date_operation) - new Date(a.date_operation)
       })
       for (var poisson of data.data) {
-        // poisson = {"x":-1.779933413,"y":48.180840963,"localisation":"FLUME à PACE","code_station":"04350157","code_cours_eau":"J7214000","nom_cours_eau":"la Flume","uri_cours_eau":"http://id.eaufrance.fr/CEA/J7214000","numero_operation":35480000043,"date_operation":"2013-10-09","code_espece_poisson":"TAC","nom_poisson":"Truite arc-en-ciel","effectif":1,"poids":0,"densite":0.176366843,"surface_peche":567,"classes":{"430":1},"geometry":{"type":"Point","crs":{"type":"name","properties":{"name":"urn:ogc:def:crs:OGC:1.3:CRS84"}},"coordinates":[-1.7799334129101858,48.18084096299211]}}
         var obj = {
           code_espece_poisson: poisson.code_espece_poisson,
           code_station: poisson.code_station,
@@ -125,27 +113,32 @@ function markerClick(data) {
   UIkit.offcanvas('#info').toggle()
 }
 
-// read data in url /fish_places.json
-$.getJSON('./fish_places.json', function (data) {
-  places = data
-  // for for each fishs
-  for (var place of places) {
-    setTimeout(function (place) {
-      // for each place, create a marker
-      var marker = new PruneCluster.Marker(place.y, place.x)
-      marker.data.obj = place
-      pruneCluster.RegisterMarker(marker)
-    }, 1, place)
+// read json file /config.json
+$.getJSON('/config.json', function (config) {
+  // for each value in data
+  for (var value of config) {
+    // trace value
+    console.log(value)
+    // read data in url /fish_places.json
+    $.getJSON(value.json, function (data) {
+      places = data
+      // for for each fishs
+      for (var place of places) {
+        setTimeout(function (place) {
+          // for each place, create a marker
+          var marker = new PruneCluster.Marker(place.y, place.x)
+          marker.data.obj = place
+          marker.data.icon = value.image
+          pruneCluster.RegisterMarker(marker)
+        }, 1, place)
+      }
+      setTimeout(() => { 
+        map.addLayer(pruneCluster)
+        pruneCluster.ProcessView()
+        map.invalidateSize() // see https://github.com/Leaflet/Leaflet/issues/690
+      }, 1000)
+    })
   }
-  setTimeout(() => { 
-    map.addLayer(pruneCluster)
-    pruneCluster.ProcessView()
-    map.invalidateSize() // see https://github.com/Leaflet/Leaflet/issues/690
-  }, 1000)
-})
-
-$.getJSON('./fishs.json', function (data) {
-  fishs = data
 })
 
 function locationCourante() {
