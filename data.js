@@ -1,32 +1,24 @@
 
 // TODO : Use config.json for standardize the function
 // import axios
-const axios = require('axios')
+const axios = require('axios');
+const { trace } = require('console');
 // import fs
 const fs = require('fs')
 
-async function genFishs(e){
-  const dataFish = require('./data/fish.js')
+var config = JSON.parse(fs.readFileSync('public/config.json'));
 
-  var dataFishV = new dataFish()
+for(var value of config){
+  const data = require(value.gen)
+  var dataG = new data()
   // save places in json file
-  var places = await dataFishV.getPlaces(1)
-  console.log(places.length)
-  fs.writeFile('public/fish_places.json', JSON.stringify(places), err => {
-    if (err) {
-      console.error(err.message)
-      return
-    }
+  dataG.getData(value,(places,value)=>{
+    console.log(value)
+    fs.writeFile('public/'+ value.json, JSON.stringify(places), err => {
+      if (err) {
+        console.error(err.message)
+        return
+      }
+    })
   })
-  // save fishs in json file
-  //var fishs = await dataFishV.getFishs()
-  //console.log(fishs.length)
-  /*fs.writeFile('public/fishs.json', JSON.stringify(fishs), err => {
-    if (err) {
-      console.error(err.message)
-      return
-    }
-  })*/
 }
-
-genFishs()

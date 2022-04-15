@@ -71,13 +71,12 @@ class dataFish{
         }
         return places;
     }
+    async getData(value,callback){
+        var places = await this.getPlaces(1)
+        callback(places, value)
+    }
     getInfo(code){
         // TODO
-    }
-    icon = {
-        iconUrl: './images/pin.png',
-        iconAnchor: [24, 48],
-        iconSize: [48, 48]
     }
 }
 module.exports = dataFish;

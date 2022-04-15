@@ -13,8 +13,6 @@ const lat = 46.561964
 const lon = 0
 const zoom = 6
 // init data
-// var fishs
-var places
 // Initialize the map
 var map = L.map('map', { maxBounds: [[101, -200], [-101, 180]] }).setView([lat, lon], zoom)
 
@@ -113,28 +111,27 @@ function markerClick(data) {
 }
 
 // read json file config.json
-$.getJSON('config.json', function (config) {
+$.getJSON('config.json', async function (config) {
   // for each value in data
   for (var value of config) {
-    // read data in url /fish_places.json
-    $.getJSON(value.json, function (data) {
-      places = data
-      // for for each fishs
-      for (var place of places) {
-        setTimeout(function (place) {
-          // for each place, create a marker
-          var marker = new PruneCluster.Marker(place.y, place.x)
-          marker.data.obj = place
-          marker.data.icon = value.image
-          pruneCluster.RegisterMarker(marker)
-        }, 1, place)
-      }
-      setTimeout(() => { 
-        map.addLayer(pruneCluster)
-        pruneCluster.ProcessView()
-        map.invalidateSize() // see https://github.com/Leaflet/Leaflet/issues/690
-      }, 1)
-    })
+    // read data in json
+    var places = await $.getJSON(value.json)
+    // for for each fishs
+    var confM = JSON.parse(JSON.stringify(value)); // deep copy
+    for (var place of places) {
+      setTimeout(function (place) {
+        // for each place, create a marker
+        var marker = new PruneCluster.Marker(place.y, place.x)
+        marker.data.obj = place
+        marker.data.icon = confM.image+""
+        pruneCluster.RegisterMarker(marker)
+      }, 1, place)
+    }
+    setTimeout(() => { 
+      map.addLayer(pruneCluster)
+      pruneCluster.ProcessView()
+      map.invalidateSize() // see https://github.com/Leaflet/Leaflet/issues/690
+    }, 1)
   }
 })
 
