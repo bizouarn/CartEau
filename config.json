@@ -1,8 +1,14 @@
 [
     {
         "name":"fish",
-        "gen":"/data/fish.js",
+        "gen":"./data/fish.js",
         "json":"fish_places.json",
         "image":"images/fish.svg"
+    },
+    {
+        "name":"water_quality",
+        "gen":"./data/water_quality.js",
+        "json":"water_quality_places.json",
+        "image":"images/Eau potable.svg"
     }
 ]
