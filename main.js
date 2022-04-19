@@ -12,9 +12,10 @@ var pruneCluster = new PruneClusterForLeaflet()
 const lat = 46.561964
 const lon = 0
 const zoom = 6
+const maxBounds =  [[52, -6], [40, 10]] // Pour filtrer les stations hors de France
 // init data
 // Initialize the map
-var map = L.map('map', { maxBounds: [[101, -200], [-101, 180]] }).setView([lat, lon], zoom)
+var map = L.map('map', { maxBounds: [[101,-200][-101,180]]}).setView([lat, lon], zoom)
 
 // Insert in class="leaflet-control-zoom leaflet-bar leaflet-control" the button "centrer" after the button "zoom in"
 var linkCenter = document.createElement('a')
@@ -109,7 +110,14 @@ function markerClick(data) {
   })
   UIkit.offcanvas('#info').toggle()
 }
-
+function inBound(lat, lon) {
+  return (
+    lat >= Math.min(maxBounds[0][0], maxBounds[1][0]) 
+    && lat <= Math.max(maxBounds[0][0], maxBounds[1][0])
+    && lon >= Math.min(maxBounds[0][1], maxBounds[1][1])
+    && lon <= Math.max(maxBounds[0][1], maxBounds[1][1])
+  )
+}
 // read json file config.json
 $.getJSON('config.json', async function (config) {
   // for each value in data
@@ -121,10 +129,12 @@ $.getJSON('config.json', async function (config) {
     for (var place of places) {
       setTimeout(function (place) {
         // for each place, create a marker
-        var marker = new PruneCluster.Marker(place.y, place.x)
-        marker.data.obj = place
-        marker.data.icon = confM.image+""
-        pruneCluster.RegisterMarker(marker)
+        if(inBound(place.y, place.x)) {
+          var marker = new PruneCluster.Marker(place.y, place.x)
+          marker.data.obj = place
+          marker.data.icon = confM.image+""
+          pruneCluster.RegisterMarker(marker)
+        }
       }, 1, place)
     }
     setTimeout(() => { 
