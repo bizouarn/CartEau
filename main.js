@@ -13,9 +13,13 @@ const lat = 46.561964
 const lon = 0
 const zoom = 6
 const maxBounds =  [[52, -6], [40, 10]] // Pour filtrer les stations hors de France
+const maxBoundsMove = [[62, -16], [30, 20]]
 // init data
 // Initialize the map
-var map = L.map('map', { maxBounds: [[101,-200][-101,180]]}).setView([lat, lon], zoom)
+var map = L.map('map', { 
+  maxBounds: maxBoundsMove,
+  minZoom: 6,
+}).setView([lat, lon], zoom)
 
 // Insert in class="leaflet-control-zoom leaflet-bar leaflet-control" the button "centrer" after the button "zoom in"
 var linkCenter = document.createElement('a')
