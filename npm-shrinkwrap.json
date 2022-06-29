@@ -1,0 +1,26 @@
+{
+  "name": "CarteEau",
+  "version": "0.0.1",
+  "lockfileVersion": 2,
+  "requires": true,
+  "packages": {
+    "": {
+      "name": "CarteEau",
+      "version": "0.0.1",
+      "dependencies": {
+        "axios": "^0.26.1",
+        "exports-loader": "^3.1.0",
+        "fs": "^0.0.1-security",
+        "jquery": "^3.6.0",
+        "leaflet": "^1.7.1",
+        "uikit": "^3.12.2"
+      },
+      "devDependencies": {
+        "vite": "^2.8.0"
+      },
+      "engines": {
+        "node": "16"
+      }
+    }
+  }
+}

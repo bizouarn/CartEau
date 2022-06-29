@@ -19,7 +19,7 @@ jobs:
       # 1. Partie Build
       - name: "Build"
         run: |
-          npm install
+          npm ci
           npm run build
       # 2. Déploiement sur les Github Pages
       - name: "Deploy Github Pages"
