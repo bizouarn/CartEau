@@ -8,5 +8,5 @@ pnpm run gen-data # Pour générer les données
 pnpm run dev # Pour lancer le serveur en mode développement
 ```
 
-Advancement :  
-![15%](https://us-central1-progress-markdown.cloudfunctions.net/progress/15)
+Avancement :  
+![16%](https://us-central1-progress-markdown.cloudfunctions.net/progress/15)
