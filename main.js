@@ -80,38 +80,62 @@ pruneCluster.PrepareLeafletMarker = function (leafletMarker, data) {
 function markerClick(data) {
   // TODO : Use config.json for standardize the function
   var ret = ''
-  $('#info-title').text(data.obj.localisation)
   $('#info-content').html('<div id="loading-content" class="uk-text-center"><div uk-spinner></div></div>')
   // call api for get more
-  $.getJSON('https://hubeau.eaufrance.fr/api/v0/etat_piscicole/poissons?code_station=' + data.obj.code_station + '&format=json', function (data) {
-    var fishs_in_station = []
-    if(data.data.length > 0) {
-      var ret = ''
-      ret += '<table class="uk-table uk-table-small uk-table-striped uk-table-hover uk-table-small">'
-      ret += '<thead><th>Espèce</th><th>Quantité</th><th>Poids</th><th>Date</th></tr></thead>'
-      // sort by date
-      data.data.sort(function (a, b) {
-        return new Date(b.date_operation) - new Date(a.date_operation)
-      })
-      for (var poisson of data.data) {
-        var obj = {
-          code_espece_poisson: poisson.code_espece_poisson,
-          code_station: poisson.code_station,
-          nom_poisson: poisson.nom_poisson,
-          effectif: poisson.effectif,
-          poids: poisson.poids,
-          densite: poisson.densite,
-          surface_peche: poisson.surface_peche,
-          date_operation: poisson.date_operation
+  if(data.type == "fish"){
+    $('#info-title').text(data.obj.localisation)
+    $.getJSON('https://hubeau.eaufrance.fr/api/v0/etat_piscicole/poissons?code_station=' + data.obj.code_station + '&format=json', function (data) {
+      var fishs_in_station = []
+      if(data.data.length > 0) {
+        var ret = ''
+        ret += '<table class="uk-table uk-table-small uk-table-striped uk-table-hover uk-table-small">'
+        ret += '<thead><th>Espèce</th><th>Quantité</th><th>Poids</th><th>Date</th></tr></thead>'
+        // sort by date
+        data.data.sort(function (a, b) {
+          return new Date(b.date_operation) - new Date(a.date_operation)
+        })
+        for (var poisson of data.data) {
+          var obj = {
+            code_espece_poisson: poisson.code_espece_poisson,
+            code_station: poisson.code_station,
+            nom_poisson: poisson.nom_poisson,
+            effectif: poisson.effectif,
+            poids: poisson.poids,
+            densite: poisson.densite,
+            surface_peche: poisson.surface_peche,
+            date_operation: poisson.date_operation
+          }
+          fishs_in_station[poisson.code_espece_poisson] = obj
+          ret += '<tr><td>' + poisson.nom_poisson + '</td><td>' + poisson.effectif + '</td><td>' + poisson.poids + '</td><td>' + poisson.date_operation + '</td></tr>'
         }
-        fishs_in_station[poisson.code_espece_poisson] = obj
-        ret += '<tr><td>' + poisson.nom_poisson + '</td><td>' + poisson.effectif + '</td><td>' + poisson.poids + '</td><td>' + poisson.date_operation + '</td></tr>'
+        ret += '</table>'
+        $('#info-content').append(ret)
       }
-      ret += '</table>'
+      $('#info-content').find('#loading-content').remove()
+    })
+  } else if(data.type == "temperature"){
+    $.getJSON('https://hubeau.eaufrance.fr/api/v1/temperature/chronique?code_station=' + data.obj.code_station + '&format=json', function (data) {
+      if(data.data.length > 0) {
+        $('#info-title').text(data.data[0].libelle_station)
+        var ret = ''
+        ret += '<table class="uk-table uk-table-small uk-table-striped uk-table-hover uk-table-small">'
+        ret += '<thead><th>Date</th><th>Heure</th><th>Température</th></tr></thead>'
+        // sort by date
+        data.data.sort(function (a, b) {
+          return new Date(b.date_mesure_temp) - new Date(a.date_mesure_temp)
+        })
+        for (var value of data.data) {
+          ret += '<tr><td>' + value.date_mesure_temp + '</td><td>' + value.heure_mesure_temp + '</td><td>' + value.code_unite + value.symbole_unite + '</td>'
+        }
+        ret += '</table>'
+      }
       $('#info-content').append(ret)
-    }
+      $('#info-content').find('#loading-content').remove()
+    })
+  } else {
+    $('#info-content').append("ERROR : No content")
     $('#info-content').find('#loading-content').remove()
-  })
+  }
   UIkit.offcanvas('#info').toggle()
 }
 function inBound(lat, lon) {
@@ -126,6 +150,7 @@ function inBound(lat, lon) {
 $.getJSON('config.json', async function (config) {
   // for each value in data
   for (var value of config) {
+    //var dataClass = new data();
     // read data in json
     var places = await $.getJSON(value.json)
     // for for each fishs
@@ -135,6 +160,7 @@ $.getJSON('config.json', async function (config) {
         // for each place, create a marker
         if(inBound(place.y, place.x)) {
           var marker = new PruneCluster.Marker(place.y, place.x)
+          marker.data.type = confM.name
           marker.data.obj = place
           marker.data.icon = confM.image+""
           pruneCluster.RegisterMarker(marker)
