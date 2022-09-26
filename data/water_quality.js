@@ -37,9 +37,9 @@ class dataWaterQuality{
         return places;
     }        
     async getData(value,callback){
-        var places = []
+        //var places = []
         //var places = await this.getPlaces(1)
-        callback(places, value)
+        //callback(places, value)
     }
     getInfo(code){
         // TODO
