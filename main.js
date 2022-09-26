@@ -125,7 +125,7 @@ function markerClick(data) {
           return new Date(b.date_mesure_temp) - new Date(a.date_mesure_temp)
         })
         for (var value of data.data) {
-          ret += '<tr><td>' + value.date_mesure_temp + '</td><td>' + value.heure_mesure_temp + '</td><td>' + value.code_unite + value.symbole_unite + '</td>'
+          ret += '<tr><td>' + value.date_mesure_temp + '</td><td>' + value.heure_mesure_temp + '</td><td>' + value.resultat + value.symbole_unite + '</td>'
         }
         ret += '</table>'
       }
