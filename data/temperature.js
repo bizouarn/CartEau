@@ -1,0 +1,52 @@
+const axios = require('axios')
+
+class dataFish{
+    constructor(){
+        
+    }    
+    async getPlaces(page){
+        var places = [];
+        var url = "https://hubeau.eaufrance.fr/api/v1/temperature/station?format=json&size=2000";
+        console.log(url)
+        var tmp = await axios.get(url).then(
+            async function(response){ 
+                try{
+                    if(response.status == 200){
+                        var count = response.data.count;
+                        var nbPage = Math.ceil(count/2000);
+                        console.log('Warning : We have to get more data. nbPage:'+nbPage);
+                        for(var i = 1; i <= nbPage ; i++){
+                            console.log("page",i)
+                            var tmp = await axios.get(url+'&page='+page).then(
+                                async function(response){ 
+                                    return response.data.data;
+                                }
+                            )
+                            for(var place of tmp){
+                                places.push(place)
+                            }
+                            console.log('nb places',places.length,tmp.length)
+                        }
+                    } else {
+                        return response.data.data;
+                    }
+                }catch(err){
+                    console.log(err)
+                }
+            }
+        )
+        for(var place of places){
+            place.x = place.longitude;
+            place.y = place.latitude;
+        }
+        return places;
+    }
+    async getData(value,callback){
+        var places = await this.getPlaces(1)
+        callback(places, value)
+    }
+    getInfo(code){
+        // TODO
+    }
+}
+module.exports = dataFish;

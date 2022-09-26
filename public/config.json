@@ -6,6 +6,12 @@
         "image":"images/fish.svg"
     },
     {
+        "name":"temperature",
+        "gen":"./data/temperature.js",
+        "json":"temperature.json",
+        "image":"images/temperature.svg"
+    },
+    {
         "name":"water_quality",
         "gen":"./data/water_quality.js",
         "json":"water_quality_places.json",
