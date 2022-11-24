@@ -82,7 +82,7 @@ function markerClick(data) {
   var ret = ''
   $('#info-content').html('<div id="loading-content" class="uk-text-center"><div uk-spinner></div></div>')
   // call api for get more
-  if(data.type == "fish"){
+  if(data.type == 'fish'){
     $('#info-title').text(data.obj.localisation)
     $.getJSON('https://hubeau.eaufrance.fr/api/v0/etat_piscicole/poissons?code_station=' + data.obj.code_station + '&format=json', function (data) {
       var fishs_in_station = []
@@ -113,7 +113,7 @@ function markerClick(data) {
       }
       $('#info-content').find('#loading-content').remove()
     })
-  } else if(data.type == "temperature"){
+  } else if(data.type == 'temperature'){
     $.getJSON('https://hubeau.eaufrance.fr/api/v1/temperature/chronique?code_station=' + data.obj.code_station + '&format=json', function (data) {
       if(data.data.length > 0) {
         $('#info-title').text(data.data[0].libelle_station)
@@ -131,9 +131,18 @@ function markerClick(data) {
       }
       $('#info-content').append(ret)
       $('#info-content').find('#loading-content').remove()
-    })
-  } else {
-    $('#info-content').append("ERROR : No content")
+    })} else if(data.type == 'hydrometry'){
+    $.getJSON('https://hubeau.eaufrance.fr/api/v1/hydrometrie/obs_elab?code_entite=' + data.obj.code_station + '&format=json', function (data) {
+      console.log(data)
+      if(data.data.length > 0) {
+        $('#info-title').text(data.data[0].libelle_station)
+        var ret = ''
+        // TODO
+      }
+      $('#info-content').append(ret)
+      $('#info-content').find('#loading-content').remove()
+    })} else {
+    $('#info-content').append('ERROR : No content')
     $('#info-content').find('#loading-content').remove()
   }
   UIkit.offcanvas('#info').toggle()
@@ -154,7 +163,7 @@ $.getJSON('config.json', async function (config) {
     // read data in json
     var places = await $.getJSON(value.json)
     // for for each fishs
-    var confM = JSON.parse(JSON.stringify(value)); // deep copy
+    var confM = JSON.parse(JSON.stringify(value)) // deep copy
     for (var place of places) {
       setTimeout(function (place) {
         // for each place, create a marker
@@ -162,7 +171,7 @@ $.getJSON('config.json', async function (config) {
           var marker = new PruneCluster.Marker(place.y, place.x)
           marker.data.type = confM.name
           marker.data.obj = place
-          marker.data.icon = confM.image+""
+          marker.data.icon = confM.image+''
           pruneCluster.RegisterMarker(marker)
         }
       }, 1, place)
