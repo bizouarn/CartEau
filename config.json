@@ -16,5 +16,11 @@
         "gen":"./data/water_quality.js",
         "json":"water_quality_places.json",
         "image":"images/Eau potable.svg"
+    },
+    {
+        "name":"hydrometry",
+        "gen":"./data/hydrometry.js",
+        "json":"hydrometry_places.json",
+        "image":"images/hydrometry.svg"
     }
 ]
