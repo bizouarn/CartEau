@@ -9,6 +9,7 @@ class dataFish{
             async function(response){ 
                 if(response.status == 206){
                     console.log('Warning : We have to get more data. nbPage:'+nbPage);
+                    // TODO
                 }
                 return response.data.data
             }
@@ -41,10 +42,9 @@ class dataFish{
                         if(response.status == 206){
                             var count = response.data.count;
                             var nbPage = Math.ceil(count/2000);
-                            console.log('Warning : We have to get more data. nbPage:'+nbPage);
                             for(var i = 1; i <= nbPage ; i++){
                                 console.log("page",i)
-                                var tmp = await axios.get(url+'&page='+page).then(
+                                var tmp = await axios.get(url+'&page='+i).then(
                                     async function(response){ 
                                         return response.data.data;
                                     }

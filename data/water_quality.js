@@ -8,14 +8,13 @@ class dataWaterQuality{
         var url = 'https://hubeau.eaufrance.fr/api/vbeta/qualite_eau_potable/communes_udi?size=100'
         var places = await axios.get(url+'&page='+page).then(
             async function(response){ 
-                if(response.status == 206){
+                if(response.status == 200 || response.status == 206){
                     var ret = []
                     var count = response.data.count;
                     var nbPage = Math.ceil(count/100);
-                    console.log('Warning : We have to get more data. nbPage:'+nbPage);
                     for(var i = 1; i <= nbPage ; i++){
                         console.log("page",i)
-                        var tmp = await axios.get(url+'&page='+page).then(
+                        var tmp = await axios.get(url+'&page='+i).then(
                             async function(response){ 
                                 return response.data.data;
                             }

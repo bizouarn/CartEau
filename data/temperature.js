@@ -11,13 +11,12 @@ class dataFish{
         var tmp = await axios.get(url).then(
             async function(response){ 
                 try{
-                    if(response.status == 200){
+                    if(response.status == 200 || response.status == 206){
                         var count = response.data.count;
                         var nbPage = Math.ceil(count/2000);
-                        console.log('Warning : We have to get more data. nbPage:'+nbPage);
                         for(var i = 1; i <= nbPage ; i++){
                             console.log("page",i)
-                            var tmp = await axios.get(url+'&page='+page).then(
+                            var tmp = await axios.get(url+'&page='+i).then(
                                 async function(response){ 
                                     return response.data.data;
                                 }
