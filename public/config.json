@@ -8,7 +8,7 @@
     {
         "name":"temperature",
         "gen":"./data/temperature.js",
-        "json":"temperature.json",
+        "json":"temperature_places.json",
         "image":"images/temperature.svg"
     },
     {
