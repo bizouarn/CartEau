@@ -28,5 +28,11 @@
         "gen":"./data/piezometrie.js",
         "json":"piezometrie_places.json",
         "image":"images/piezometrie.svg"
+    },
+    {
+        "name":"ecoulement",
+        "gen":"./data/ecoulement.js",
+        "json":"ecoulement_places.json",
+        "image":"images/ecoulement.svg"
     }
 ]
