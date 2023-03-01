@@ -130,7 +130,7 @@ function markerClick(data) {
       $('#info-content').find('#loading-content').remove()
     })
   } else if(data.type == 'hydrometry'){
-    $.getJSON('https://hubeau.eaufrance.fr/api/v1/hydrometrie/obs_elab?code_entite=' + data.obj.code_station + '&format=json&sort=desc', function (data) {
+    $.getJSON('https://hubeau.eaufrance.fr/api/v1/hydrometrie/observations_tr?code_entite=' + data.obj.code_station + '&format=json&sort=desc', function (data) {
       console.log(data)
       if(data.data.length > 0) {
         $('#info-title').text(data.data[0].libelle_station)
@@ -139,7 +139,7 @@ function markerClick(data) {
         ret += '<thead><th>Date</th><th>Hydrometry</th><th>Qualification</th></tr></thead>'
 
         for (var value of data.data) {
-          ret += '<tr><td>' + value.date_obs_elab + '</td><td>' + value.resultat_obs_elab + " " + value.grandeur_hydro_elab + '</td><td>' + value.libelle_qualification + '</td>'
+          ret += '<tr><td>' + value.date_obs + '</td><td>' + value.resultat_obs + " " + value.grandeur_hydro + '</td><td>' + value.libelle_qualification_obs + '</td>'
         }
         ret += '</table>'
       }
