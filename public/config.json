@@ -22,5 +22,11 @@
         "gen":"./data/hydrometry.js",
         "json":"hydrometry_places.json",
         "image":"images/hydrometry.svg"
+    },
+    {
+        "name":"piezometrie",
+        "gen":"./data/piezometrie.js",
+        "json":"piezometrie_places.json",
+        "image":"images/piezometrie.svg"
     }
 ]
