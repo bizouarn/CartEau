@@ -114,16 +114,13 @@ function markerClick(data) {
       $('#info-content').find('#loading-content').remove()
     })
   } else if(data.type == 'temperature'){
-    $.getJSON('https://hubeau.eaufrance.fr/api/v1/temperature/chronique?code_station=' + data.obj.code_station + '&format=json', function (data) {
+    $.getJSON('https://hubeau.eaufrance.fr/api/v1/temperature/chronique?code_station=' + data.obj.code_station + '&format=json&sort=desc', function (data) {
       if(data.data.length > 0) {
         $('#info-title').text(data.data[0].libelle_station)
         var ret = ''
         ret += '<table class="uk-table uk-table-small uk-table-striped uk-table-hover uk-table-small">'
         ret += '<thead><th>Date</th><th>Heure</th><th>Température</th></tr></thead>'
-        // sort by date
-        data.data.sort(function (a, b) {
-          return new Date(b.date_mesure_temp) - new Date(a.date_mesure_temp)
-        })
+
         for (var value of data.data) {
           ret += '<tr><td>' + value.date_mesure_temp + '</td><td>' + value.heure_mesure_temp + '</td><td>' + value.resultat + value.symbole_unite + '</td>'
         }
@@ -132,12 +129,18 @@ function markerClick(data) {
       $('#info-content').append(ret)
       $('#info-content').find('#loading-content').remove()
     })} else if(data.type == 'hydrometry'){
-    $.getJSON('https://hubeau.eaufrance.fr/api/v1/hydrometrie/obs_elab?code_entite=' + data.obj.code_station + '&format=json', function (data) {
+    $.getJSON('https://hubeau.eaufrance.fr/api/v1/hydrometrie/obs_elab?code_entite=' + data.obj.code_station + '&format=json&sort=desc', function (data) {
       console.log(data)
       if(data.data.length > 0) {
         $('#info-title').text(data.data[0].libelle_station)
         var ret = ''
-        // TODO
+        ret += '<table class="uk-table uk-table-small uk-table-striped uk-table-hover uk-table-small">'
+        ret += '<thead><th>Date</th><th>Hydrometry</th><th>Heure</th></tr></thead>'
+
+        for (var value of data.data) {
+          ret += '<tr><td>' + value.date_obs_elab + '</td><td>' + value.resultat_obs_elab + " " + value.grandeur_hydro_elab + '</td><td>' + value.libelle_qualification + '</td>'
+        }
+        ret += '</table>'
       }
       $('#info-content').append(ret)
       $('#info-content').find('#loading-content').remove()
