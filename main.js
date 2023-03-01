@@ -128,14 +128,15 @@ function markerClick(data) {
       }
       $('#info-content').append(ret)
       $('#info-content').find('#loading-content').remove()
-    })} else if(data.type == 'hydrometry'){
+    })
+  } else if(data.type == 'hydrometry'){
     $.getJSON('https://hubeau.eaufrance.fr/api/v1/hydrometrie/obs_elab?code_entite=' + data.obj.code_station + '&format=json&sort=desc', function (data) {
       console.log(data)
       if(data.data.length > 0) {
         $('#info-title').text(data.data[0].libelle_station)
         var ret = ''
         ret += '<table class="uk-table uk-table-small uk-table-striped uk-table-hover uk-table-small">'
-        ret += '<thead><th>Date</th><th>Hydrometry</th><th>Heure</th></tr></thead>'
+        ret += '<thead><th>Date</th><th>Hydrometry</th><th>Qualification</th></tr></thead>'
 
         for (var value of data.data) {
           ret += '<tr><td>' + value.date_obs_elab + '</td><td>' + value.resultat_obs_elab + " " + value.grandeur_hydro_elab + '</td><td>' + value.libelle_qualification + '</td>'
@@ -144,7 +145,25 @@ function markerClick(data) {
       }
       $('#info-content').append(ret)
       $('#info-content').find('#loading-content').remove()
-    })} else {
+    })
+  } else if(data.type == 'piezometrie'){
+    console.log(data);
+    $.getJSON('https://hubeau.eaufrance.fr/api/v1/niveaux_nappes/chroniques?code_bss=' + data.obj.code_bss + '&format=json&sort=desc', function (data) {
+      if(data.data.length > 0) {
+        $('#info-title').text(data.data[0].libelle_station)
+        var ret = ''
+        ret += '<table class="uk-table uk-table-small uk-table-striped uk-table-hover uk-table-small">'
+        ret += '<thead><th>Date</th><th>Niveau d\'eau</th><th>Profondeur nappe</th><th>Qualification</th></tr></thead>'
+
+        for (var value of data.data) {
+          ret += '<tr><td>' + value.date_mesure + '</td><td>' + value.niveau_nappe_eau + ' m</td><td>' + value.profondeur_nappe + ' m</td><td>' + value.qualification + '</td>'
+        }
+        ret += '</table>'
+      }
+      $('#info-content').append(ret)
+      $('#info-content').find('#loading-content').remove()
+    })
+  } else {
     $('#info-content').append('ERROR : No content')
     $('#info-content').find('#loading-content').remove()
   }
